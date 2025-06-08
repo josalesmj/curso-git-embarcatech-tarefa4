@@ -1,0 +1,33 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repositório
+        uses: actions/checkout@v4
+
+      - name: Verificar index.html
+        run: |
+          if [ ! -f public/index.html ]; then
+            echo "Erro: O arquivo public/index.html não foi encontrado. O pipeline falhará."
+            exit 1
+          fi
+          echo "Arquivo public/index.html encontrado. Prosseguindo com o deploy."
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload de Artefatos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Fazer Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
