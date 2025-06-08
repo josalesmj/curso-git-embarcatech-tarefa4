@@ -12,6 +12,10 @@ jobs:
       contents: read
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout Repositório
         uses: actions/checkout@v4
@@ -30,7 +34,7 @@ jobs:
       - name: Upload de Artefatos
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'public' # A pasta que será publicada
+          path: 'public'
 
       - name: Fazer Deploy no GitHub Pages
         id: deployment
